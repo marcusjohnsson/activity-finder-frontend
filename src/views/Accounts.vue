@@ -1,6 +1,6 @@
 <template>
-  <div class="About">
-    <p class="text-4xl font-bold">About</p>
+  <div class="Accounts">
+    <p class="text-4xl font-bold">Accounts</p>
     <hr />
     <Accounts msg="List All Accounts" />
   </div>

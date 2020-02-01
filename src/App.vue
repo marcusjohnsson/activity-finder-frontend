@@ -32,12 +32,12 @@
                   Home
                 </a>
               </router-link>
-              <router-link to="/about">
+              <router-link to="/accounts">
                 <a
                   href="#responsive-header"
                   class="block inline-block  text-teal-200 hover:text-white mr-4"
                 >
-                  About
+                  Accounts
                 </a>
               </router-link>
             </div>

@@ -15,9 +15,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" class="hover:bg-teal-500 hover:text-white">
+          <tr
+            v-for="user in users"
+            :key="user.index"
+            class="hover:bg-teal-500 hover:text-white"
+          >
             <td class="border px-4 py-2">
-              {{ user.username }}
+              <router-link :to="'/account/' + user.id">
+                {{ user.username }}</router-link
+              >
             </td>
             <td class="border px-4 py-2">{{ user.id }}</td>
           </tr>
