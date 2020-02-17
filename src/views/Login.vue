@@ -1,35 +1,31 @@
 <template>
   <div>
     <div class="max-w-xs m-auto tracking-tight pt-10">
-      <form class="bg-teal-500 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form
+        @submit.prevent="login"
+        class="bg-teal-500 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
         <div class="mb-4">
-          <label
-            class="block text-gray-100 text-sm font-bold mb-2"
-            for="username"
-          >
-            Username
-          </label>
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="username"
-            type="text"
+            v-model="user.username"
             placeholder="Username"
           />
         </div>
         <div class="mb-6">
-          <label
-            class="block text-gray-100 text-sm font-bold mb-2"
-            for="password"
-          >
-            Password
-          </label>
           <input
             class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
-            type="password"
+            v-model="user.password"
             placeholder="******************"
           />
-          <p class="text-gray-100 text-xs italic">Please choose a password.</p>
+            <p class="text-xs text-gray-100" v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+                  <li v-for="error in errors" :key="error.index"> - {{ error }}</li>
+              </ul>
+            </p>
         </div>
         <div class="flex items-center justify-between">
           <button
@@ -40,18 +36,62 @@
           <a
             class="inline-block align-baseline font-bold text-sm text-gray-300 hover:text-gray-100"
             href="#"
+            >Forgot Password?</a
           >
-            Forgot Password?
-          </a>
         </div>
       </form>
-      <p class="text-center text-gray-500 text-xs">
-        &copy;2020 Acme Corp. All rights reserved.
-      </p>
+
+      <router-link to="/register">
+        <p class="text-center text-teal-700 text-xs">
+          No account? Register now!
+        </p>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+const client = require("../activity-finder-client");
+export default {
+  data() {
+    return {
+      errors: [],
+      user: {
+        username: "",
+        password: ""
+      }
+    };
+  },
+  methods: {
+    login() {
+      client.signIn(
+        this.user.username,
+        this.user.password,
+        (errors, account) => {
+          // errors = array with error codes (empty if everything went OK).
+          // account = object with info about the account you signed into if everything went OK.
+          if (errors.length == 0) {
+            // account = {id: 85, username: "Greta"}
+            // PASS DATA TO APP.VUE (SET user.isSignedIn = true)
+             this.$emit("setSignIn", account)
+             // redirect user
+             this.$router.push({path: "/account/"+account.id});
+          } else {
+            this.errors = errors;
+            console.log(errors);
+            
+
+            // errors = ["errorCode1", "errorCode2", ...]
+            // Possible errors codes:
+            //  - "networkError": Couldn't connect to the backend.
+            //  - "backendError": The backend couldn't execute the request for some reason.
+            //  - "wrongCredentials": The username of password is incorrect.
+          }
+        }
+      );
+    }
+  }
+};
 </script>
+
+<style></style>

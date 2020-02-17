@@ -1,7 +1,7 @@
 <template>
   <div class="mt-2">
-    <p class="text-3xl font-bold text-teal-600">Account</p>
-    <p class="text-smfont-bold text-teal-600">{{ account.username }}</p>
+    <p class="text-3xl font-bold text-teal-600">Welcome {{ account.username }}!</p>
+    <p class="text-smfont-bold text-teal-600">This is your account page.</p>
   </div>
 </template>
 
