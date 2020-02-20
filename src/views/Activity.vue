@@ -8,6 +8,17 @@
         :href="this.activity.location"
       >@location</a>
     </p>
+    <hr class="pb-1" />
+    <button
+      @click="removeActivity()"
+      type="text"
+      class="text-xs font-semibold text-teal-500 hover:text-teal-900"
+    >Delete Activity</button> |
+    <button
+      @click="()=>$router.push('../editactivity/'+this.$route.params.id,)"
+      type="text"
+      class="text-xs font-semibold text-teal-500 hover:text-teal-900"
+    >Edit Activity</button>
     <hr class="pb-3" />
     <p>{{activity.description}}</p>
   </div>
@@ -19,8 +30,20 @@ export default {
   components: {},
   data() {
     return {
-      activity: {}
+      activity: {},
+      deleteEdit: false
     };
+  },
+  methods: {
+    removeActivity() {
+      client.deleteActivityById(this.$route.params.id, errors => {
+        // errors = array with error codes (empty if everything went OK).
+        if (errors.length == 0) {
+          this.$router.push({ path: "/" });
+        } else {
+        }
+      });
+    }
   },
   created: function() {
     console.log("route param :", this.$route.params.id);
@@ -68,11 +91,6 @@ export default {
         this.activity.endTime = fromUnixTime(this.activity.endTime);
       } else {
         console.log(errors);
-        // errors = ["errorCode1", "errorCode2", ...]
-        // Possible errors codes:
-        //  - "networkError": Couldn't connect to the backend.
-        //  - "backendError": The backend couldn't execute the request for some reason.
-        //  - "notFound": No activity with the given id exists.
       }
     });
   }

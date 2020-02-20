@@ -2,17 +2,20 @@
   <div class="mt-2">
     <p class="text-3xl font-bold text-teal-600">Welcome {{ account.username }}!</p>
     <p class="text-smfont-bold text-teal-600">This is your account page.</p>
+    <ActivityList />
   </div>
 </template>
 
 <script>
 const client = require("../activity-finder-client");
+import ActivityList from "@/components/ActivityList.vue";
 
 export default {
-  components: {},
+  components: { ActivityList },
   data() {
     return {
-      account: []
+      account: [],
+      myActivities: []
     };
   },
   created: function() {

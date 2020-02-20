@@ -33,21 +33,40 @@ export default {
     };
   },
   created() {
-    client.getAllActivities((errors, activities) => {
-      // errors = array with error codes (empty if everything went OK).
-      // activities = array with all activities if everything went OK.
-      if (errors.length == 0) {
-        // activities = [{id: 1, accountId: 32, title: "Play football", ...}, {...}, ...]
-        this.allActivities = activities;
-        console.log("activities:", activities);
-      } else {
-        // errors = ["errorCode1", "errorCode2", ...]
-        // Possible errors codes:
-        //  - "networkError": Couldn't connect to the backend.
-        //  - "backendError": The backend couldn't execute the request for some reason.
-        console.log(errors);
-      }
-    });
+    if (this.$route.params.id) {
+      client.getActivitiesByAccountId(
+        this.$route.params.id,
+        (errors, activities) => {
+          // errors = array with error codes (empty if everything went OK).
+          // activities = array with all activities if everything went OK.
+          if (errors.length == 0) {
+            // activities = [{id: 1, accountId: 3, title: "Watch the sky", ...}, {...}, ...]
+            this.allActivities = activities;
+          } else {
+            // errors = ["errorCode1", "errorCode2", ...]
+            // Possible errors codes:
+            //  - "networkError": Couldn't connect to the backend.
+            //  - "backendError": The backend couldn't execute the request for some reason.
+          }
+        }
+      );
+    } else {
+      client.getAllActivities((errors, activities) => {
+        // errors = array with error codes (empty if everything went OK).
+        // activities = array with all activities if everything went OK.
+        if (errors.length == 0) {
+          // activities = [{id: 1, accountId: 32, title: "Play football", ...}, {...}, ...]
+          this.allActivities = activities;
+          console.log("activities:", activities);
+        } else {
+          // errors = ["errorCode1", "errorCode2", ...]
+          // Possible errors codes:
+          //  - "networkError": Couldn't connect to the backend.
+          //  - "backendError": The backend couldn't execute the request for some reason.
+          console.log(errors);
+        }
+      });
+    }
   }
 };
 </script>

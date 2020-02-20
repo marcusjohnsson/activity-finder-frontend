@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Activities from "../views/Activities.vue";
 import Activity from "../views/Activity.vue";
+import EditActivity from "../views/EditActivity.vue";
 import Accounts from "../views/Accounts.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
@@ -19,6 +20,11 @@ const routes = [
     path: "/activity/:id",
     name: "Activity",
     component: Activity
+  },
+  {
+    path: "/editactivity/:id",
+    name: "editActivity",
+    component: EditActivity
   },
   {
     path: "/accounts",
